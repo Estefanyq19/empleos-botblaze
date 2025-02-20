@@ -1,0 +1,159 @@
+
+
+/* Reset general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+.navbar {
+    background: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.navbar .logo img {
+    height: 40px;
+}
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+.navbar ul li {
+    display: inline;
+}
+.navbar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+.navbar ul li a:hover {
+    color: #007bff;
+}
+.container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Header */
+.header {
+    background-color: #040069;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* Main content */
+.main-content {
+    padding: 40px 0;
+}
+
+.job-details {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+/* Imagen del empleo */
+.job-image {
+    text-align: center;
+}
+
+.job-img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Descripción */
+.description {
+    grid-column: span 2;
+}
+
+.description h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.description p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Requisitos */
+.requirements h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.requirements p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Responsabilidades */
+.responsibilities h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.responsibilities p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Botón de postulación */
+.apply-button {
+    display: inline-block;
+    background-color: #05006a;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.apply-button:hover {
+    background-color: #6377ec;
+}
+
+/* Footer */
+.footer {
+    background-color: #0800a0;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer p {
+    font-size: 0.9rem;
+}
