@@ -1,23 +1,18 @@
 <?php
 include 'db.php';
 
-// Sanitizar el id para asegurarse de que sea un número entero
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id > 0) {
-    // Buscar el empleo en la base de datos
     $result = $conn->query("SELECT * FROM empleos WHERE id = $id");
 
-    // Verificar si se encontró el empleo
     if ($result->num_rows > 0) {
         $empleo = $result->fetch_assoc();
     } else {
-        // Si no se encuentra el empleo, mostrar un error o redirigir
         echo "El empleo solicitado no existe.";
         exit;
     }
 } else {
-    // Si el id no es válido, redirigir a la página principal o mostrar un mensaje
     echo "ID de empleo no válido.";
     exit;
 }
@@ -32,11 +27,11 @@ if ($id > 0) {
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo"><img src="https://botblaze.tech/wp-content/uploads/2024/02/logo-header-bb.png" alt="BotBlaze"></div>
+        <div class="logo">
+            <img src="https://botblaze.tech/wp-content/uploads/2024/02/logo-header-bb.png" alt="BotBlaze">
+        </div>
         <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#empleos">Empleos</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="index.php">Inicio</a></li>
         </ul>
     </nav>
 
@@ -49,30 +44,31 @@ if ($id > 0) {
     <main class="main-content">
         <div class="container">
             <div class="job-details">
-                <!-- Imagen del empleo -->
-                <div class="job-image">
-                    <img src="<?= htmlspecialchars($empleo['foto']) ?>" alt="<?= htmlspecialchars($empleo['nombre_empleo']) ?>" class="job-img">
-                </div>
+                <!-- Contenedor de la imagen -->
+                 <div class="job-image">
+                    <?php if (!empty($empleo['foto'])): ?>
+                        <img src="<?= htmlspecialchars($empleo['foto']) ?>" alt="<?= htmlspecialchars($empleo['nombre_empleo']) ?>" class="job-img">
+                        <?php else: ?>
+                            <p>Imagen no disponible</p>
+                            <?php endif; ?>
+                        </div>
 
-                <!-- Descripción del empleo -->
+                <!-- Información del empleo -->
                 <div class="description">
                     <h2>Descripción del Empleo</h2>
                     <p><?= nl2br(htmlspecialchars($empleo['descripcion'])) ?></p>
                 </div>
 
-                <!-- Requisitos -->
                 <div class="requirements">
                     <h3>Requisitos</h3>
                     <p><?= nl2br(htmlspecialchars($empleo['requisitos'])) ?></p>
                 </div>
 
-                <!-- Responsabilidades -->
                 <div class="responsibilities">
                     <h3>Responsabilidades</h3>
                     <p><?= nl2br(htmlspecialchars($empleo['responsabilidades'])) ?></p>
                 </div>
 
-                <!-- Funciones -->
                 <div class="functions">
                     <h3>Funciones</h3>
                     <p><?= nl2br(htmlspecialchars($empleo['funciones'])) ?></p>
@@ -86,7 +82,6 @@ if ($id > 0) {
 
     <footer class="footer">
         <div class="container">
-            <!-- Pie de página -->
         </div>
     </footer>
 </body>

@@ -1,6 +1,6 @@
 <?php
 include 'db.php'; // Relación a conexión con la base de datos
-$id = $_GET['id'];
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Obtener los empleos disponibles
 $empleosResult = $conn->query("SELECT * FROM empleos");
@@ -11,21 +11,21 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postulación</title>
-    <link rel="stylesheet" href="styleForm.css">
+    <link rel="stylesheet" href="styleForms.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 </head>
 <body>
+
     <!-- Botón Regresar -->
     <button onclick="window.history.back()" class="btn-regresar">Regresar</button>
 
-    <!-- Título -->
     <div class="container">
         <h1>Postular al Empleo</h1>
 
         <!-- Formulario de postulación -->
-        <form action="guardar_postulacion.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="empleo_id" value="<?= $id ?>">
+        <form id="postulacionForm" action="guardar_postulacion.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="empleo_id" value="<?= htmlspecialchars($id) ?>">
 
-            <!-- Nombre y Correo -->
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
@@ -36,20 +36,20 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
                 <input type="email" name="email" id="email" placeholder="Correo" required>
             </div>
 
-            <!-- Empleo: Lista Desplegable -->
             <div class="form-group">
                 <label for="empleo">Selecciona el empleo al que deseas postular:</label>
                 <select name="empleo_id" id="empleo" required>
                     <option value="">Seleccione un empleo</option>
                     <?php while ($empleo = $empleosResult->fetch_assoc()): ?>
-                        <option value="<?= $empleo['id'] ?>" <?= ($empleo['id'] == $id) ? 'selected' : '' ?>><?= $empleo['nombre_empleo'] ?></option>
+                        <option value="<?= htmlspecialchars($empleo['id']) ?>" <?= ($empleo['id'] == $id) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($empleo['nombre_empleo']) ?>
+                        </option>
                     <?php endwhile; ?>
                 </select>
             </div>
 
-            <!-- CV y otros campos -->
             <div class="form-group">
-                <label for="cv">Sube tu CV</label>
+                <label for="cv">Sube tu CV (PDF o Word)</label>
                 <input type="file" name="cv" id="cv" required>
             </div>
 
@@ -71,5 +71,69 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
             <button class="button" type="submit">Enviar</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById("postulacionForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita el envío inmediato
+
+            const nombre = document.getElementById("nombre").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const empleo = document.getElementById("empleo").value;
+            const cv = document.getElementById("cv").files[0];
+            const whatsapp = document.getElementById("whatsApp").value.trim();
+
+            // Validar campos vacíos
+            if (!nombre || !email || !empleo || !cv || !whatsapp) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Por favor, completa todos los campos obligatorios.",
+                });
+                return;
+            }
+
+            // Validar archivo CV (solo PDF o Word)
+            const allowedExtensions = ["application/pdf", "application/msword", 
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+            if (!allowedExtensions.includes(cv.type)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Archivo inválido",
+                    text: "Solo se permiten archivos PDF o Word.",
+                });
+                return;
+            }
+
+            // Validar WhatsApp (solo números)
+            const regexWhatsApp = /^[0-9]+$/;
+            if (!regexWhatsApp.test(whatsapp)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Número inválido",
+                    text: "El número de WhatsApp debe contener solo números.",
+                });
+                return;
+            }
+
+            // Confirmación antes de enviar
+            Swal.fire({
+                title: "¿Confirmas tu postulación?",
+                text: "Verifica que toda la información es correcta.",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Sí, enviar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("postulacionForm").submit();
+                }
+            });
+        });
+
+        // Autoformateo del campo WhatsApp
+        document.getElementById("whatsApp").addEventListener("input", function() {
+            this.value = this.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
+        });
+    </script>
 </body>
 </html>
