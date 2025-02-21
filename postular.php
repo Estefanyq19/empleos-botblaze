@@ -1,5 +1,5 @@
 <?php
-include 'db.php'; // relacion a conexion con bd
+include 'db.php'; // Relación a conexión con la base de datos
 $id = $_GET['id'];
 
 // Obtener los empleos disponibles
@@ -14,11 +14,14 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
     <link rel="stylesheet" href="styleForm.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Postular al Empleo</h1>
-    </header>
+    <!-- Botón Regresar -->
+    <button onclick="window.history.back()" class="btn-regresar">Regresar</button>
 
+    <!-- Título -->
     <div class="container">
+        <h1>Postular al Empleo</h1>
+
+        <!-- Formulario de postulación -->
         <form action="guardar_postulacion.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="empleo_id" value="<?= $id ?>">
 
@@ -33,17 +36,15 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
                 <input type="email" name="email" id="email" placeholder="Correo" required>
             </div>
 
-            <!-- Checklist de empleos -->
+            <!-- Empleo: Lista Desplegable -->
             <div class="form-group">
                 <label for="empleo">Selecciona el empleo al que deseas postular:</label>
-                <div class="checkbox-group">
+                <select name="empleo_id" id="empleo" required>
+                    <option value="">Seleccione un empleo</option>
                     <?php while ($empleo = $empleosResult->fetch_assoc()): ?>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="id_empleos[]" value="<?= $empleo['id'] ?>" id="empleo_<?= $empleo['id'] ?>">
-                            <label for="empleo_<?= $empleo['id'] ?>"><?= $empleo['titulo'] ?></label>
-                        </div>
+                        <option value="<?= $empleo['id'] ?>" <?= ($empleo['id'] == $id) ? 'selected' : '' ?>><?= $empleo['nombre_empleo'] ?></option>
                     <?php endwhile; ?>
-                </div>
+                </select>
             </div>
 
             <!-- CV y otros campos -->
@@ -59,12 +60,12 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
 
             <div class="form-group">
                 <label for="linkedin">LinkedIn</label>
-                <input type="url" name="LinkedIn" id="linkedin" placeholder="URL de LinkedIn">
+                <input type="url" name="linkedin" id="linkedin" placeholder="URL de LinkedIn">
             </div>
 
             <div class="form-group">
                 <label for="portafolio">Portafolio</label>
-                <input type="url" name="Portafolio" id="portafolio" placeholder="URL de tu Portafolio">
+                <input type="url" name="portafolio" id="portafolio" placeholder="URL de tu Portafolio">
             </div>
 
             <button class="button" type="submit">Enviar</button>

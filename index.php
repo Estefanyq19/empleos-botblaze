@@ -25,11 +25,14 @@ $result = $conn->query("SELECT * FROM empleos");
         <div class="job-grid">
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="job-card">
-                    <img src="<?= $row['image'] ?>" alt="<?= $row['titulo'] ?>">
+                    <img src="<?= $row['foto'] ?>" alt="<?= $row['nombre_empleo'] ?>" class="job-card-img">
                     <div class="job-card-content">
-                        <h3><?= $row['titulo'] ?></h3>
-                        <p><?= substr($row['descripcion'], 0, 100) ?>...</p>
-                        <a href="detalle.php?id=<?= $row['id'] ?>">Ver más</a>
+                        <h3><?= $row['nombre_empleo'] ?></h3>
+                        <p><strong>Descripción:</strong> <?= substr($row['descripcion'], 0, 100) ?>...</p>
+                        <p><strong>Responsabilidades:</strong> <?= substr($row['responsabilidades'], 0, 100) ?>...</p>
+                        <p><strong>Requisitos:</strong> <?= substr($row['requisitos'], 0, 100) ?>...</p>
+                        <p><strong>Funciones:</strong> <?= substr($row['funciones'], 0, 100) ?>...</p>
+                        <a href="detalle.php?id=<?= $row['id'] ?>" class="btn-ver-mas">Ver más</a>
                     </div>
                 </div>
             <?php endwhile; ?>

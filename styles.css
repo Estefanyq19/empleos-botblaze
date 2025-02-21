@@ -73,10 +73,11 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.3s;
 }
 .job-card:hover {
     transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);  /* Sombra más pronunciada al hacer hover */
 }
 .job-card img {
     width: 100%;
@@ -104,6 +105,7 @@ body {
     margin-top: 10px;
     border-radius: 5px;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 .job-card a:hover {
     background: #0056b3;
@@ -115,4 +117,31 @@ body {
     padding: 20px;
     margin-top: 50px;
     font-size: 14px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 24px;  /* Reducir tamaño del título en dispositivos más pequeños */
+    }
+
+    .navbar ul {
+        flex-direction: column; /* Poner los items de navegación en columna */
+        gap: 15px;
+        align-items: center;
+    }
+
+    .job-grid {
+        grid-template-columns: 1fr 1fr; /* Dos columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .job-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas más pequeñas */
+    }
+
+    .hero h1 {
+        font-size: 18px;  /* Ajustar título para pantallas muy pequeñas */
+    }
 }

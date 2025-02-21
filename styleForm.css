@@ -1,4 +1,4 @@
-/* Reset general */
+/* Estilo Global */
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +11,27 @@ body {
     color: #333;
 }
 
+/* Estilo para el botón Regresar */
+.btn-regresar {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #203f51;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001; /* Para asegurarse de que el botón esté por encima de otros elementos */
+    transition: background-color 0.3s;
+}
+
+.btn-regresar:hover {
+    background-color: #004474;
+}
+
+/* Contenedor principal */
 .container {
     width: 90%;
     margin: 0 auto;
@@ -28,6 +49,7 @@ body {
     color: #005a8d;
 }
 
+/* Estilo del formulario */
 form {
     background-color: white;
     padding: 20px;
@@ -54,19 +76,7 @@ form {
     font-size: 1rem;
 }
 
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.checkbox-item {
-    margin-bottom: 10px;
-}
-
-.checkbox-item input {
-    margin-right: 10px;
-}
-
+/* Botón de envío */
 .button {
     background-color: #005a8d;
     color: white;

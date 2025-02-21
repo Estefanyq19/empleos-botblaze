@@ -1,15 +1,33 @@
 <?php
 include 'db.php';
-$id = $_GET['id'];
-$result = $conn->query("SELECT * FROM empleos WHERE id = $id");
-$empleo = $result->fetch_assoc();
+
+// Sanitizar el id para asegurarse de que sea un número entero
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($id > 0) {
+    // Buscar el empleo en la base de datos
+    $result = $conn->query("SELECT * FROM empleos WHERE id = $id");
+
+    // Verificar si se encontró el empleo
+    if ($result->num_rows > 0) {
+        $empleo = $result->fetch_assoc();
+    } else {
+        // Si no se encuentra el empleo, mostrar un error o redirigir
+        echo "El empleo solicitado no existe.";
+        exit;
+    }
+} else {
+    // Si el id no es válido, redirigir a la página principal o mostrar un mensaje
+    echo "ID de empleo no válido.";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $empleo['titulo'] ?></title>
+    <title><?= htmlspecialchars($empleo['nombre_empleo']) ?></title>
     <link rel="stylesheet" href="styleDetalle.css">
 </head>
 <body>
@@ -24,7 +42,7 @@ $empleo = $result->fetch_assoc();
 
     <header class="header">
         <div class="container">
-            <h1><?= $empleo['titulo'] ?></h1>
+            <h1><?= htmlspecialchars($empleo['nombre_empleo']) ?></h1>
         </div>
     </header>
 
@@ -33,36 +51,42 @@ $empleo = $result->fetch_assoc();
             <div class="job-details">
                 <!-- Imagen del empleo -->
                 <div class="job-image">
-                    <img src="<?= $empleo['image'] ?>" alt="<?= $empleo['titulo'] ?>" class="job-img">
+                    <img src="<?= htmlspecialchars($empleo['foto']) ?>" alt="<?= htmlspecialchars($empleo['nombre_empleo']) ?>" class="job-img">
                 </div>
 
                 <!-- Descripción del empleo -->
                 <div class="description">
                     <h2>Descripción del Empleo</h2>
-                    <p><?= $empleo['descripcion'] ?></p>
+                    <p><?= nl2br(htmlspecialchars($empleo['descripcion'])) ?></p>
                 </div>
 
                 <!-- Requisitos -->
                 <div class="requirements">
                     <h3>Requisitos</h3>
-                    <p><?= $empleo['requisitos'] ?></p>
+                    <p><?= nl2br(htmlspecialchars($empleo['requisitos'])) ?></p>
                 </div>
 
                 <!-- Responsabilidades -->
                 <div class="responsibilities">
                     <h3>Responsabilidades</h3>
-                    <p><?= $empleo['responsabilidades'] ?></p>
+                    <p><?= nl2br(htmlspecialchars($empleo['responsabilidades'])) ?></p>
+                </div>
+
+                <!-- Funciones -->
+                <div class="functions">
+                    <h3>Funciones</h3>
+                    <p><?= nl2br(htmlspecialchars($empleo['funciones'])) ?></p>
                 </div>
 
                 <!-- Botón de postulación -->
-                <a class="apply-button" href="postular.php?id=<?= $empleo['id'] ?>">Postular</a>
+                <a class="apply-button" href="postular.php?id=<?= htmlspecialchars($empleo['id']) ?>">Postular</a>
             </div>
         </div>
     </main>
 
     <footer class="footer">
         <div class="container">
-           
+            <!-- Pie de página -->
         </div>
     </footer>
 </body>
