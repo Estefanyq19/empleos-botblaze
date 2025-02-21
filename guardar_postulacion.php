@@ -1,66 +1,74 @@
 <?php
-include 'db.php';
+include 'db.php'; // Relación a conexión con la base de datos
 
-// Asegurar que la carpeta 'cvs' existe
-$cv_folder = "cvs/";
-if (!file_exists($cv_folder)) {
-    mkdir($cv_folder, 0777, true);
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$empleo_id = isset($_POST['empleo_id']) ? intval($_POST['empleo_id']) : 0;
+
+// Obtener el nombre del empleo para crear la subcarpeta
+$empleo_nombre = '';
+if ($empleo_id) {
+    $stmt = $conn->prepare("SELECT nombre_empleo FROM empleos WHERE id = ?");
+    $stmt->bind_param("i", $empleo_id);
+    $stmt->execute();
+    $stmt->bind_result($empleo_nombre);
+    $stmt->fetch();
+    $stmt->close();
 }
 
-// Recoger datos del formulario con sanitización
-$nombre = $conn->real_escape_string($_POST['nombre']);
-$email = $conn->real_escape_string($_POST['email']);
-$whatsApp = $conn->real_escape_string($_POST['whatsApp']);
-$linkedin = $conn->real_escape_string($_POST['linkedin']); // Asegúrate de que 'linkedin' esté en minúsculas
-$portafolio = $conn->real_escape_string($_POST['portafolio']); // Asegúrate de que 'portafolio' esté en minúsculas
+// Procesar los datos del formulario
+$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$whatsApp = isset($_POST['whatsApp']) ? $_POST['whatsApp'] : '';
+$linkedin = isset($_POST['linkedin']) ? $_POST['linkedin'] : '';
+$portafolio = isset($_POST['portafolio']) ? $_POST['portafolio'] : '';
+$cv_name = '';
 
-// Manejo del archivo CV
+// Subir el archivo CV
 if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK) {
     $cv_temp = $_FILES['cv']['tmp_name'];
-    $cv_name = basename($_FILES['cv']['name']);
-    $cv_path = $cv_folder . $cv_name;
 
-    // Verificar el tipo de archivo (solo PDFs o DOCX)
+    // Renombrar el archivo con el nombre del usuario
+    $cv_name = strtolower(str_replace(' ', '_', $nombre)) . '_' . basename($_FILES['cv']['name']);
+    $cv_folder = "cvs/" . strtolower(str_replace(' ', '_', $empleo_nombre)); // Crear subcarpeta para el empleo
+
+    // Crear la subcarpeta si no existe
+    if (!file_exists($cv_folder)) {
+        mkdir($cv_folder, 0777, true);
+    }
+
+    // Verificar que el archivo sea válido
     $allowed_types = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!in_array($_FILES['cv']['type'], $allowed_types)) {
         die("Error: El archivo debe ser PDF o DOCX.");
     }
 
-    // Mover el archivo
+    // Mover el archivo a la subcarpeta
+    $cv_path = $cv_folder . "/" . $cv_name;
     if (!move_uploaded_file($cv_temp, $cv_path)) {
         die("Error al subir el archivo.");
     }
-} else {
-    die("Error: No se seleccionó un archivo válido.");
 }
 
-// Guardar la postulación en la tabla 'postulaciones' usando consulta preparada
-$stmt = $conn->prepare("INSERT INTO postulaciones (nombre, email, whatsApp, linkedin, portafolio, cv) 
-                        VALUES (?, ?, ?, ?, ?, ?)");
+// Guardar la postulación en la base de datos
+$stmt = $conn->prepare("INSERT INTO postulaciones (nombre, email, whatsApp, linkedin, portafolio, cv) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssssss", $nombre, $email, $whatsApp, $linkedin, $portafolio, $cv_name);
 
-if (!$stmt->execute()) {
+if ($stmt->execute()) {
+    $postulacion_id = $stmt->insert_id;
+    $stmt->close();
+
+    // Asociar el empleo con la postulación
+    if ($empleo_id) {
+        $stmt = $conn->prepare("INSERT INTO postulaciones_empleos (postulacion_id, empleo_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $postulacion_id, $empleo_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    // Redirigir con éxito
+    header("Location: postular.php?id=" . $id . "&success=1");
+    exit();
+} else {
     die("Error en la postulación: " . $stmt->error);
 }
-
-// Obtener el ID de la postulación insertada
-$postulacion_id = $stmt->insert_id;
-$stmt->close();
-
-// Obtener el empleo seleccionado (solo uno, ya que usamos un radio button)
-$empleo_id = isset($_POST['empleo_id']) ? $_POST['empleo_id'] : null;
-
-if ($empleo_id) {
-    // Usar consulta preparada para evitar SQL Injection
-    $stmt = $conn->prepare("INSERT INTO postulaciones_empleos (postulacion_id, empleo_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $postulacion_id, $empleo_id);
-    if (!$stmt->execute()) {
-        die("Error al asociar empleo: " . $stmt->error);
-    }
-    $stmt->close();
-} else {
-    die("Error: No se seleccionó un empleo.");
-}
-
-echo "Postulación enviada correctamente.";
 ?>

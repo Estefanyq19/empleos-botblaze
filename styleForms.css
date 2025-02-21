@@ -85,7 +85,7 @@ form {
 }
 
 .form-group input:focus, .form-group select:focus {
-    background-color: #fff;
+    background-color: #aa2929;
     box-shadow: 0 0 8px rgba(0, 90, 141, 0.2);
     outline: none;
 }
@@ -115,7 +115,7 @@ form {
 /* Efecto neumorphism */
 .form-group input,
 .form-group select {
-    background: #e0e5ec;
+    background: #03030441;
     box-shadow: inset 3px 3px 6px #c1c7d0, inset -3px -3px 6px #ffffff;
 }
 
