@@ -20,7 +20,7 @@ $empleosResult = $empleosStmt->get_result();
 <body>
 
     <!-- Botón Regresar -->
-    <button onclick="window.history.back()" class="btn-regresar">Regresar</button>
+    <<button onclick="window.location.href='index.php';" class="btn-regresar">Regresar</button>
 
     <div class="container">
         <h1>Postular al Empleo</h1>
