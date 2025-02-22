@@ -1,9 +1,12 @@
 <?php
-include 'db.php'; // Relación a conexión con la base de datos
+include 'db.php'; // Conexión con la base de datos
+
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Obtener los empleos disponibles
-$empleosResult = $conn->query("SELECT * FROM empleos");
+// Obtener empleos disponibles con seguridad en la consulta
+$empleosStmt = $conn->prepare("SELECT id, nombre_empleo FROM empleos");
+$empleosStmt->execute();
+$empleosResult = $empleosStmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -11,7 +14,7 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postulación</title>
-    <link rel="stylesheet" href="styleForms.css">
+    <link rel="stylesheet" href="styleForm.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 </head>
 <body>
@@ -50,12 +53,12 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
 
             <div class="form-group">
                 <label for="cv">Sube tu CV (PDF o Word)</label>
-                <input type="file" name="cv" id="cv" required>
+                <input type="file" name="cv" id="cv" accept=".pdf,.doc,.docx" required>
             </div>
 
             <div class="form-group">
                 <label for="whatsApp">WhatsApp</label>
-                <input type="text" name="whatsApp" id="whatsApp" placeholder="Número de WhatsApp" required>
+                <input type="tel" name="whatsApp" id="whatsApp" placeholder="Número de WhatsApp" required>
             </div>
 
             <div class="form-group">
@@ -104,13 +107,13 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
                 return;
             }
 
-            // Validar WhatsApp (solo números)
-            const regexWhatsApp = /^[0-9]+$/;
+            // Validar WhatsApp (solo números y máximo 15 caracteres)
+            const regexWhatsApp = /^[0-9]{7,15}$/;
             if (!regexWhatsApp.test(whatsapp)) {
                 Swal.fire({
                     icon: "error",
                     title: "Número inválido",
-                    text: "El número de WhatsApp debe contener solo números.",
+                    text: "El número de WhatsApp debe contener solo números y tener entre 7 y 15 dígitos.",
                 });
                 return;
             }
@@ -134,6 +137,36 @@ $empleosResult = $conn->query("SELECT * FROM empleos");
         document.getElementById("whatsApp").addEventListener("input", function() {
             this.value = this.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
         });
+
+        // Función para mostrar alerta de éxito o error
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Verifica si la URL tiene el parámetro "success" o "error"
+            if (urlParams.has('success')) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Postulación enviada con éxito!',
+                    text: 'Tu postulación ha sido enviada correctamente. ¡Gracias por aplicar!',
+                });
+            } else if (urlParams.has('error')) {
+                let errorMessage = 'Hubo un problema al enviar tu postulación. Por favor, intenta de nuevo.';
+                // Mostrar un mensaje de error más específico dependiendo del parámetro
+                if (urlParams.get('error') === 'db') {
+                    errorMessage = 'Error en la base de datos. Por favor, inténtalo nuevamente.';
+                } else if (urlParams.get('error') === 'invalid_file') {
+                    errorMessage = 'El archivo del CV no es válido. Asegúrate de subir un archivo PDF o Word.';
+                } else if (urlParams.get('error') === 'file_upload') {
+                    errorMessage = 'Hubo un problema al cargar tu archivo. Por favor, intenta nuevamente.';
+                }
+
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: errorMessage,
+                });
+            }
+        };
     </script>
 </body>
 </html>

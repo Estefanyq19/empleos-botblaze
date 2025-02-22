@@ -23,7 +23,7 @@ if ($id > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($empleo['nombre_empleo']) ?></title>
-    <link rel="stylesheet" href="styleDetalle.css">
+    <link rel="stylesheet" href="styleDetalles.css">
 </head>
 <body>
     <nav class="navbar">

@@ -27,8 +27,12 @@ $cv_name = '';
 if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK) {
     $cv_temp = $_FILES['cv']['tmp_name'];
 
-    // Renombrar el archivo con el nombre del usuario
-    $cv_name = strtolower(str_replace(' ', '_', $nombre)) . '_' . basename($_FILES['cv']['name']);
+    // Obtener la extensión del archivo original
+    $ext = pathinfo($_FILES['cv']['name'], PATHINFO_EXTENSION); // Obtener la extensión del archivo
+
+    // Renombrar el archivo con el nombre del usuario (sin espacios ni caracteres especiales)
+    $cv_name = strtolower(str_replace(' ', '_', $nombre)) . '.' . $ext; // El nombre será el del usuario + extensión
+
     $cv_folder = "cvs/" . strtolower(str_replace(' ', '_', $empleo_nombre)); // Crear subcarpeta para el empleo
 
     // Crear la subcarpeta si no existe
@@ -40,6 +44,12 @@ if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK) {
     $allowed_types = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!in_array($_FILES['cv']['type'], $allowed_types)) {
         die("Error: El archivo debe ser PDF o DOCX.");
+    }
+
+    // Verificar el tamaño del archivo (por ejemplo, máximo 5MB)
+    $max_size = 5 * 1024 * 1024; // 5MB
+    if ($_FILES['cv']['size'] > $max_size) {
+        die("Error: El archivo debe ser menor a 5MB.");
     }
 
     // Mover el archivo a la subcarpeta
