@@ -11,9 +11,9 @@ body {
     text-align: center;
 }
 
-
+/* Navbar */
 .navbar {
-    display: flex !important;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
@@ -29,17 +29,10 @@ body {
     animation: moveLogo 2s ease-in-out infinite;  
 }
 
-
 @keyframes moveLogo {
-    0% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(10px); 
-    }
-    100% {
-        transform: translateX(0);
-    }
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
 }
 
 .navbar ul {
@@ -54,11 +47,11 @@ body {
 
 .navbar ul li a {
     text-decoration: none;
-    color: #fff;  
+    color: #000;
     font-weight: bold;
 }
 
-
+/* Hero */
 .hero {
     background-color: #000474;
     color: white;
@@ -67,13 +60,14 @@ body {
     font-weight: bold;
     animation: backgroundAnimation 6s infinite alternate ease-in-out;
 }
+
 @keyframes backgroundAnimation {
     0% { background-color: #000474; }
     50% { background-color: #0022b2; }
     100% { background-color: #000474; }
 }
 
-
+/* Media Section */
 .media-container {
     display: flex;
     justify-content: center;
@@ -110,7 +104,6 @@ body {
     display: block;
 }
 
-
 .video-container video {
     width: 100%;
     max-width: 500px;
@@ -118,7 +111,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Jobs Section */
 .jobs-section {
     padding: 40px 20px;
     background: #fff;
@@ -129,7 +122,6 @@ body {
     font-size: 2rem;
     color: #000000;
 }
-
 
 .job-grid {
     display: grid;
@@ -185,6 +177,7 @@ body {
     background: #007474;
 }
 
+/* Footer */
 .footer {
     padding: 15px;
     background-color: #000474;
@@ -192,6 +185,7 @@ body {
     margin-top: 20px;
 }
 
+/* Carousel Buttons */
 .carousel-button {
     background-color: #007bff32;
     color: white;
@@ -214,4 +208,79 @@ body {
 
 .carousel-button:hover {
     background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 10px 20px;
+    }
+    
+    .navbar ul {
+        gap: 10px;
+    }
+    
+    .hero {
+        font-size: 1.5rem;
+        padding: 40px 15px;
+    }
+    
+    .carousel-container, .video-container {
+        max-width: 90%;
+    }
+    
+    .job-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        display: none; /* Se puede cambiar con JS para un menú hamburguesa */
+    }
+
+    .hero {
+        font-size: 1.3rem;
+        padding: 30px 10px;
+    }
+
+    .media-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .carousel-container, .video-container {
+        max-width: 100%;
+    }
+
+    .job-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        font-size: 1.1rem;
+        padding: 20px 10px;
+    }
+
+    .carousel-container, .video-container {
+        max-width: 100%;
+    }
+
+    .job-card {
+        padding: 15px;
+    }
+
+    .btn-ver-mas {
+        padding: 6px 12px;
+    }
 }

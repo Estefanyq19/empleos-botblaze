@@ -8,10 +8,9 @@
 body {
     background-color: #f4f4f4;
     color: #333;
-    text-align: center;
 }
 
-
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -59,39 +58,30 @@ body {
     color: #000474;
 }
 
+/* HEADER */
 .header {
     background-color: #000474;
     color: white;
     padding: 50px 20px;
     font-size: 1.8rem;
     font-weight: bold;
-    animation: fadeInDown 1s ease-in-out;
+    text-align: center;
     animation: backgroundAnimation 6s infinite alternate ease-in-out;
 }
+
 @keyframes backgroundAnimation {
     0% { background-color: #000474; }
     50% { background-color: #0022b2; }
     100% { background-color: #000474; }
 }
 
-
+/* MAIN CONTENT */
 .main-content {
     padding: 40px 20px;
     background: #fff;
 }
 
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* JOB DETAILS */
 .job-details {
     max-width: 800px;
     margin: auto;
@@ -100,7 +90,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
-    animation: fadeInUp 1s ease-in-out;
 }
 
 .job-image {
@@ -117,7 +106,6 @@ body {
     animation: slideIn 1s ease-out forwards;
 }
 
-
 @keyframes slideIn {
     to {
         opacity: 1;
@@ -125,17 +113,16 @@ body {
     }
 }
 
-
+/* SECCIONES */
 .description, .requirements, .responsibilities, .functions {
     margin-bottom: 20px;
-    animation: fadeInUp 0.8s ease-in-out;
 }
 
 h2, h3 {
     color: #000474;
 }
 
-
+/* APPLY SECTION */
 .apply-section {
     text-align: center;
     margin-top: 20px;
@@ -146,11 +133,13 @@ h2, h3 {
     font-weight: bold;
     color: #000000;
     margin-bottom: 10px;
-    animation: fadeInUp 1s ease-in-out;
 }
 
 .apply-button {
-    display: inline-block;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
     padding: 12px 20px;
     background-color: #007bff;
     color: white;
@@ -166,7 +155,6 @@ h2, h3 {
     transform: scale(1.05);
 }
 
-
 @keyframes bounce {
     from {
         transform: translateY(0);
@@ -176,11 +164,58 @@ h2, h3 {
     }
 }
 
-
+/* FOOTER */
 .footer {
     padding: 15px;
     background-color: #000474;
     color: white;
     margin-top: 20px;
-    animation: fadeInUp 1s ease-in-out;
+    text-align: center;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .header {
+        font-size: 1.4rem;
+        padding: 30px 10px;
+    }
+
+    .job-details {
+        padding: 15px;
+    }
+
+    .apply-button {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        font-size: 1.2rem;
+        padding: 20px;
+    }
+
+    .job-details {
+        padding: 10px;
+    }
+
+    .navbar {
+        padding: 10px;
+    }
+
+    .navbar ul {
+        gap: 5px;
+    }
 }
