@@ -16,7 +16,11 @@ if ($empleo_id) {
 }
 
 // Procesar los datos del formulario
-$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
+$primer_nombre = isset($_POST['primer_nombre']) ? $_POST['primer_nombre'] : '';
+$segundo_nombre = isset($_POST['segundo_nombre']) ? $_POST['segundo_nombre'] : '';
+$primer_apellido = isset($_POST['primer_apellido']) ? $_POST['primer_apellido'] : '';
+$segundo_apellido = isset($_POST['segundo_apellido']) ? $_POST['segundo_apellido'] : '';
+$fecha_nacimiento = isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : '';
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $whatsApp = isset($_POST['whatsApp']) ? $_POST['whatsApp'] : '';
 $linkedin = isset($_POST['linkedin']) ? $_POST['linkedin'] : '';
@@ -31,7 +35,7 @@ if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK) {
     $ext = pathinfo($_FILES['cv']['name'], PATHINFO_EXTENSION); // Obtener la extensión del archivo
 
     // Renombrar el archivo con el nombre del usuario (sin espacios ni caracteres especiales)
-    $cv_name = strtolower(str_replace(' ', '_', $nombre)) . '.' . $ext; // El nombre será el del usuario + extensión
+    $cv_name = strtolower(str_replace(' ', '_', $primer_nombre . '_' . $primer_apellido)) . '.' . $ext; // El nombre será el del usuario + extensión
 
     $cv_folder = "cvs/" . strtolower(str_replace(' ', '_', $empleo_nombre)); // Crear subcarpeta para el empleo
 
@@ -59,15 +63,13 @@ if (isset($_FILES['cv']) && $_FILES['cv']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// Guardar la postulación en la base de datos
-$stmt = $conn->prepare("INSERT INTO postulaciones (nombre, email, whatsApp, linkedin, portafolio, cv) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssss", $nombre, $email, $whatsApp, $linkedin, $portafolio, $cv_name);
+$stmt = $conn->prepare("INSERT INTO postulaciones (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nacimiento, email, whatsApp, linkedin, portafolio, cv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssssssss", $primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido, $fecha_nacimiento, $email, $whatsApp, $linkedin, $portafolio, $cv_name);
 
 if ($stmt->execute()) {
     $postulacion_id = $stmt->insert_id;
     $stmt->close();
 
-    // Asociar el empleo con la postulación
     if ($empleo_id) {
         $stmt = $conn->prepare("INSERT INTO postulaciones_empleos (postulacion_id, empleo_id) VALUES (?, ?)");
         $stmt->bind_param("ii", $postulacion_id, $empleo_id);
@@ -75,7 +77,6 @@ if ($stmt->execute()) {
         $stmt->close();
     }
 
-    // Redirigir con éxito
     header("Location: postular.php?id=" . $id . "&success=1");
     exit();
 } else {

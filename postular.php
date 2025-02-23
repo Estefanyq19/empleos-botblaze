@@ -14,13 +14,13 @@ $empleosResult = $empleosStmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postulación</title>
-    <link rel="stylesheet" href="styleForm.css">
+    <link rel="stylesheet" href="./style/formulario/styleForm.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 </head>
 <body>
 
     <!-- Botón Regresar -->
-    <<button onclick="window.location.href='index.php';" class="btn-regresar">Regresar</button>
+    <button onclick="window.location.href='index.php';" class="btn-regresar">Regresar</button>
 
     <div class="container">
         <h1>Postular al Empleo</h1>
@@ -29,9 +29,34 @@ $empleosResult = $empleosStmt->get_result();
         <form id="postulacionForm" action="guardar_postulacion.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="empleo_id" value="<?= htmlspecialchars($id) ?>">
 
+            <!-- Primer nombre -->
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
+                <label for="primer_nombre">Primer Nombre</label>
+                <input type="text" name="primer_nombre" id="primer_nombre" placeholder="Primer Nombre" required>
+            </div>
+
+            <!-- Segundo nombre -->
+            <div class="form-group">
+                <label for="segundo_nombre">Segundo Nombre</label>
+                <input type="text" name="segundo_nombre" id="segundo_nombre" placeholder="Segundo Nombre">
+            </div>
+
+            <!-- Primer apellido -->
+            <div class="form-group">
+                <label for="primer_apellido">Primer Apellido</label>
+                <input type="text" name="primer_apellido" id="primer_apellido" placeholder="Primer Apellido" required>
+            </div>
+
+            <!-- Segundo apellido -->
+            <div class="form-group">
+                <label for="segundo_apellido">Segundo Apellido</label>
+                <input type="text" name="segundo_apellido" id="segundo_apellido" placeholder="Segundo Apellido">
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
             </div>
 
             <div class="form-group">
@@ -79,14 +104,14 @@ $empleosResult = $empleosStmt->get_result();
         document.getElementById("postulacionForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Evita el envío inmediato
 
-            const nombre = document.getElementById("nombre").value.trim();
+            const primerNombre = document.getElementById("primer_nombre").value.trim();
             const email = document.getElementById("email").value.trim();
             const empleo = document.getElementById("empleo").value;
             const cv = document.getElementById("cv").files[0];
             const whatsapp = document.getElementById("whatsApp").value.trim();
 
             // Validar campos vacíos
-            if (!nombre || !email || !empleo || !cv || !whatsapp) {
+            if (!primerNombre || !email || !empleo || !cv || !whatsapp) {
                 Swal.fire({
                     icon: "error",
                     title: "Error",

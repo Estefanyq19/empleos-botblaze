@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2025 a las 16:30:11
+-- Tiempo de generación: 23-02-2025 a las 02:12:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -56,19 +56,19 @@ INSERT INTO `empleos` (`id`, `nombre_empleo`, `descripcion`, `foto`, `responsabi
 
 CREATE TABLE `postulaciones` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
+  `primer_nombre` varchar(255) NOT NULL,
+  `segundo_nombre` varchar(100) NOT NULL,
+  `primer_apellido` varchar(100) NOT NULL,
+  `segundo_apellido` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `whatsApp` varchar(255) DEFAULT NULL,
   `linkedin` varchar(255) DEFAULT NULL,
   `portafolio` varchar(255) DEFAULT NULL,
   `cv` varchar(255) DEFAULT NULL,
-  `fecha_postulacion` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_postulacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_nacimiento` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
---
--- Estructura de tabla para la tabla `postulaciones_empleos`
---
 
 CREATE TABLE `postulaciones_empleos` (
   `id` int(11) NOT NULL,
@@ -76,9 +76,6 @@ CREATE TABLE `postulaciones_empleos` (
   `empleo_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Índices para tablas volcadas
---
 
 --
 -- Indices de la tabla `empleos`
@@ -114,13 +111,13 @@ ALTER TABLE `empleos`
 -- AUTO_INCREMENT de la tabla `postulaciones`
 --
 ALTER TABLE `postulaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `postulaciones_empleos`
 --
 ALTER TABLE `postulaciones_empleos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas

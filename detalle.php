@@ -23,7 +23,7 @@ if ($id > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($empleo['nombre_empleo']) ?></title>
-    <link rel="stylesheet" href="styleDetalles.css">
+    <link rel="stylesheet" href="./style/informacion/styleDetalles.css">
 </head>
 <body>
     <nav class="navbar">
@@ -45,13 +45,13 @@ if ($id > 0) {
         <div class="container">
             <div class="job-details">
                 <!-- Contenedor de la imagen -->
-                 <div class="job-image">
+                <div class="job-image">
                     <?php if (!empty($empleo['foto'])): ?>
                         <img src="<?= htmlspecialchars($empleo['foto']) ?>" alt="<?= htmlspecialchars($empleo['nombre_empleo']) ?>" class="job-img">
-                        <?php else: ?>
-                            <p>Imagen no disponible</p>
-                            <?php endif; ?>
-                        </div>
+                    <?php else: ?>
+                        <p>Imagen no disponible</p>
+                    <?php endif; ?>
+                </div>
 
                 <!-- Información del empleo -->
                 <div class="description">
@@ -74,8 +74,12 @@ if ($id > 0) {
                     <p><?= nl2br(htmlspecialchars($empleo['funciones'])) ?></p>
                 </div>
 
-                <!-- Botón de postulación -->
-                <a class="apply-button" href="postular.php?id=<?= htmlspecialchars($empleo['id']) ?>">Postular</a>
+                <!-- Frase motivacional y botón de postulación -->
+                <div class="apply-section">
+                    <br>
+                    <p class="motivational-text">"Las grandes oportunidades no esperan. ¡Da el primer paso hacia tu éxito y únete a nosotros hoy!"</p>
+                    <a class="apply-button" href="postular.php?id=<?= htmlspecialchars($empleo['id']) ?>">Aplica aquí</a>
+                </div>
             </div>
         </div>
     </main>

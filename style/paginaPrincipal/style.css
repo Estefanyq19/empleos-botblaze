@@ -1,4 +1,3 @@
-/* 🌟 Reset de estilos */
 * {
     margin: 0;
     padding: 0;
@@ -12,13 +11,13 @@ body {
     text-align: center;
 }
 
-/* 🏠 Navbar */
+
 .navbar {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #fff;
+    background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -27,6 +26,20 @@ body {
 
 .navbar .logo img {
     height: 50px;
+    animation: moveLogo 2s ease-in-out infinite;  
+}
+
+
+@keyframes moveLogo {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px); 
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .navbar ul {
@@ -41,20 +54,26 @@ body {
 
 .navbar ul li a {
     text-decoration: none;
-    color: #333;
+    color: #fff;  
     font-weight: bold;
 }
 
-/* 🎉 Hero Section */
+
 .hero {
     background-color: #000474;
     color: white;
     padding: 50px 20px;
     font-size: 1.8rem;
     font-weight: bold;
+    animation: backgroundAnimation 6s infinite alternate ease-in-out;
+}
+@keyframes backgroundAnimation {
+    0% { background-color: #000474; }
+    50% { background-color: #0022b2; }
+    100% { background-color: #000474; }
 }
 
-/* 🖼 Carrusel */
+
 .media-container {
     display: flex;
     justify-content: center;
@@ -81,7 +100,7 @@ body {
 .carousel-slide {
     width: 100%;
     height: 250px;
-    object-fit: contain; /* No corta las imágenes */
+    object-fit: contain;
     display: none;
     border-radius: 10px;
     background-color: #f8f8f8;
@@ -91,7 +110,7 @@ body {
     display: block;
 }
 
-/* 🎥 Video */
+
 .video-container video {
     width: 100%;
     max-width: 500px;
@@ -99,7 +118,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 💼 Sección de empleos */
+
 .jobs-section {
     padding: 40px 20px;
     background: #fff;
@@ -111,10 +130,10 @@ body {
     color: #000000;
 }
 
-/* 🎴 Tarjetas de empleo */
+
 .job-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     justify-content: center;
 }
@@ -122,7 +141,7 @@ body {
 .job-card {
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     border-radius: 10px;
     background: #fff;
@@ -130,13 +149,14 @@ body {
 }
 
 .job-card:hover {
-    transform: translateY(-5px); /* Hover efecto */
+    transform: translateY(-5px);
 }
 
 .job-card-img {
     width: 100%;
-    height: 180px;
-    object-fit: cover; /* Ajusta las imágenes */
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
     border-radius: 10px;
 }
 
@@ -160,14 +180,38 @@ body {
     border-radius: 5px;
     font-weight: bold;
 }
-.btn-ver-mas.clicked {
-    background: #007474; 
-}
 
+.btn-ver-mas.clicked {
+    background: #007474;
+}
 
 .footer {
     padding: 15px;
     background-color: #000474;
     color: white;
     margin-top: 20px;
+}
+
+.carousel-button {
+    background-color: #007bff32;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: #0056b3;
 }

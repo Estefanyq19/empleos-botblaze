@@ -8,7 +8,7 @@ $result = $conn->query("SELECT * FROM empleos");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empleos - BotBlaze</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./style/paginaPrincipal/style.css">
 </head>
 <body>
 
@@ -32,6 +32,9 @@ $result = $conn->query("SELECT * FROM empleos");
                 <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114192/WhatsApp_Image_2025-02-20_at_10.51.29_PM_ynaxhn.jpg" alt="Desarrolladores en acción" class="carousel-slide">
                 <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114191/WhatsApp_Image_2025-02-20_at_10.51.30_PM_1_w2tspd.jpg" alt="Desarrolladores en acción" class="carousel-slide">
             </div>
+            <!-- Controles de navegación -->
+            <button class="carousel-button prev-button"><</button>
+            <button class="carousel-button next-button">></button>
         </div>
         <div class="video-container">
             <video controls>
@@ -62,6 +65,34 @@ $result = $conn->query("SELECT * FROM empleos");
         <p>&copy; 2025 BotBlaze. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+
+            // Función para mostrar el siguiente slide
+            const nextSlide = () => {
+                slides[currentSlide].style.display = 'none';
+                currentSlide = (currentSlide + 1) % totalSlides; // Cíclico
+                slides[currentSlide].style.display = 'block';
+            };
+
+            // Mostrar siguiente slide cada 3 segundos
+            setInterval(nextSlide, 3000);
+
+            // Mostrar el slide anterior
+            const prevSlide = () => {
+                slides[currentSlide].style.display = 'none';
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; // Cíclico
+                slides[currentSlide].style.display = 'block';
+            };
+
+            // Agregar eventos a los botones
+            document.querySelector('.prev-button').addEventListener('click', prevSlide);
+            document.querySelector('.next-button').addEventListener('click', nextSlide);
+        });
+    </script>
+
 </body>
 </html>
