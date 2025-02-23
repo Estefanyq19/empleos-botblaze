@@ -6,10 +6,18 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
+    animation: backgroundCycle 6s infinite alternate ease-in-out;
     color: #000000; 
     padding: 20px;
 }
+
+/* Animación de fondo */
+@keyframes backgroundCycle {
+    0% { background-color: #f8f9fa; } 
+    50% { background-color: #e3f2fd; } 
+    100% { background-color: #fce4ec; }
+}
+
 
 /* Botón regresar */
 .btn-regresar {
