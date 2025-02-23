@@ -26,11 +26,11 @@ $result = $conn->query("SELECT * FROM empleos");
     <div class="media-container">
         <div class="carousel-container">
             <div class="carousel">
-                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114192/WhatsApp_Image_2025-02-20_at_10.51.30_PM_eiqjrd.jpg" alt="Equipo trabajando" class="carousel-slide">
-                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114191/WhatsApp_Image_2025-02-20_at_10.55.02_PM_nlaxjx.jpg" alt="Reunión de equipo" class="carousel-slide">
-                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114192/WhatsApp_Image_2025-02-20_at_10.56.36_PM_jbgtqq.jpg" alt="Desarrolladores en acción" class="carousel-slide">
+                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/c_pad,b_gen_fill,w_500,h_280/v1740114191/WhatsApp_Image_2025-02-20_at_10.51.30_PM_1_w2tspd.jpg" alt="Equipo trabajando" class="carousel-slide">
+                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/c_pad,b_gen_fill,w_500,h_280/v1740114191/WhatsApp_Image_2025-02-20_at_10.55.02_PM_nlaxjx.jpg" alt="Reunión de equipo" class="carousel-slide">
+                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/c_pad,b_gen_fill,w_500,h_280/v1740114192/WhatsApp_Image_2025-02-20_at_10.56.36_PM_jbgtqq.jpg" alt="Desarrolladores en acción" class="carousel-slide">
+                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/c_pad,b_gen_fill,w_500,h_280/v1740114191/WhatsApp_Image_2025-02-20_at_10.51.41_PM_r0vwji.jpg" alt="Desarrolladores en acción" class="carousel-slide">
                 <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114192/WhatsApp_Image_2025-02-20_at_10.51.29_PM_ynaxhn.jpg" alt="Desarrolladores en acción" class="carousel-slide">
-                <img src="https://res.cloudinary.com/dfo4pp3fq/image/upload/v1740114191/WhatsApp_Image_2025-02-20_at_10.51.30_PM_1_w2tspd.jpg" alt="Desarrolladores en acción" class="carousel-slide">
             </div>
             <!-- Controles de navegación -->
             <button class="carousel-button prev-button"><</button>

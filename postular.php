@@ -16,6 +16,15 @@ $empleosResult = $empleosStmt->get_result();
     <title>Postulación</title>
     <link rel="stylesheet" href="./style/formulario/styleForm.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+    <style>
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-row .form-group {
+            width: 48%;
+        }
+    </style>
 </head>
 <body>
 
@@ -29,39 +38,43 @@ $empleosResult = $empleosStmt->get_result();
         <form id="postulacionForm" action="guardar_postulacion.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="empleo_id" value="<?= htmlspecialchars($id) ?>">
 
-            <!-- Primer nombre -->
-            <div class="form-group">
-                <label for="primer_nombre">Primer Nombre</label>
-                <input type="text" name="primer_nombre" id="primer_nombre" placeholder="Primer Nombre" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="primer_nombre">Primer Nombre</label>
+                    <input type="text" name="primer_nombre" id="primer_nombre" placeholder="Primer Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="segundo_nombre">Segundo Nombre</label>
+                    <input type="text" name="segundo_nombre" id="segundo_nombre" placeholder="Segundo Nombre">
+                </div>
             </div>
 
-            <!-- Segundo nombre -->
-            <div class="form-group">
-                <label for="segundo_nombre">Segundo Nombre</label>
-                <input type="text" name="segundo_nombre" id="segundo_nombre" placeholder="Segundo Nombre">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="primer_apellido">Primer Apellido</label>
+                    <input type="text" name="primer_apellido" id="primer_apellido" placeholder="Primer Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="segundo_apellido">Segundo Apellido</label>
+                    <input type="text" name="segundo_apellido" id="segundo_apellido" placeholder="Segundo Apellido">
+                </div>
             </div>
 
-            <!-- Primer apellido -->
-            <div class="form-group">
-                <label for="primer_apellido">Primer Apellido</label>
-                <input type="text" name="primer_apellido" id="primer_apellido" placeholder="Primer Apellido" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Correo</label>
+                    <input type="email" name="email" id="email" placeholder="Correo" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsApp">WhatsApp</label>
+                    <input type="tel" name="whatsApp" id="whatsApp" placeholder="Número de WhatsApp" required>
+                </div>
             </div>
 
-            <!-- Segundo apellido -->
-            <div class="form-group">
-                <label for="segundo_apellido">Segundo Apellido</label>
-                <input type="text" name="segundo_apellido" id="segundo_apellido" placeholder="Segundo Apellido">
-            </div>
-
-            <!-- Fecha de nacimiento -->
+           
             <div class="form-group">
                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                 <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Correo</label>
-                <input type="email" name="email" id="email" placeholder="Correo" required>
             </div>
 
             <div class="form-group">
@@ -82,11 +95,6 @@ $empleosResult = $empleosStmt->get_result();
             </div>
 
             <div class="form-group">
-                <label for="whatsApp">WhatsApp</label>
-                <input type="tel" name="whatsApp" id="whatsApp" placeholder="Número de WhatsApp" required>
-            </div>
-
-            <div class="form-group">
                 <label for="linkedin">LinkedIn</label>
                 <input type="url" name="linkedin" id="linkedin" placeholder="URL de LinkedIn">
             </div>
@@ -100,98 +108,5 @@ $empleosResult = $empleosStmt->get_result();
         </form>
     </div>
 
-    <script>
-        document.getElementById("postulacionForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Evita el envío inmediato
-
-            const primerNombre = document.getElementById("primer_nombre").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const empleo = document.getElementById("empleo").value;
-            const cv = document.getElementById("cv").files[0];
-            const whatsapp = document.getElementById("whatsApp").value.trim();
-
-            // Validar campos vacíos
-            if (!primerNombre || !email || !empleo || !cv || !whatsapp) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Por favor, completa todos los campos obligatorios.",
-                });
-                return;
-            }
-
-            // Validar archivo CV (solo PDF o Word)
-            const allowedExtensions = ["application/pdf", "application/msword", 
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
-            if (!allowedExtensions.includes(cv.type)) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Archivo inválido",
-                    text: "Solo se permiten archivos PDF o Word.",
-                });
-                return;
-            }
-
-            // Validar WhatsApp (solo números y máximo 15 caracteres)
-            const regexWhatsApp = /^[0-9]{7,15}$/;
-            if (!regexWhatsApp.test(whatsapp)) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Número inválido",
-                    text: "El número de WhatsApp debe contener solo números y tener entre 7 y 15 dígitos.",
-                });
-                return;
-            }
-
-            // Confirmación antes de enviar
-            Swal.fire({
-                title: "¿Confirmas tu postulación?",
-                text: "Verifica que toda la información es correcta.",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Sí, enviar",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById("postulacionForm").submit();
-                }
-            });
-        });
-
-        // Autoformateo del campo WhatsApp
-        document.getElementById("whatsApp").addEventListener("input", function() {
-            this.value = this.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
-        });
-
-        // Función para mostrar alerta de éxito o error
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            // Verifica si la URL tiene el parámetro "success" o "error"
-            if (urlParams.has('success')) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Postulación enviada con éxito!',
-                    text: 'Tu postulación ha sido enviada correctamente. ¡Gracias por aplicar!',
-                });
-            } else if (urlParams.has('error')) {
-                let errorMessage = 'Hubo un problema al enviar tu postulación. Por favor, intenta de nuevo.';
-                // Mostrar un mensaje de error más específico dependiendo del parámetro
-                if (urlParams.get('error') === 'db') {
-                    errorMessage = 'Error en la base de datos. Por favor, inténtalo nuevamente.';
-                } else if (urlParams.get('error') === 'invalid_file') {
-                    errorMessage = 'El archivo del CV no es válido. Asegúrate de subir un archivo PDF o Word.';
-                } else if (urlParams.get('error') === 'file_upload') {
-                    errorMessage = 'Hubo un problema al cargar tu archivo. Por favor, intenta nuevamente.';
-                }
-
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                    text: errorMessage,
-                });
-            }
-        };
-    </script>
 </body>
 </html>
